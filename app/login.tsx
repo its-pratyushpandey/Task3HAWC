@@ -4,8 +4,17 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
-import { AccessibilityInfo, ActivityIndicator, Alert, Dimensions, findNodeHandle, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import {
+    AccessibilityInfo,
+    Alert,
+    Dimensions,
+    findNodeHandle,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -17,12 +26,6 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
   const errorRef = useRef<Text>(null);
-
-  // Bounce animation for icon
-  const bounce = useSharedValue(1);
-  const iconStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: bounce.value }],
-  }));
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,68 +60,42 @@ const LoginScreen = () => {
     }, 1200);
   };
 
-  // Animate icon bounce on mount
-  React.useEffect(() => {
-    bounce.value = withSpring(1.18, { damping: 4, stiffness: 120 }, () => {
-      bounce.value = withSpring(1, { damping: 4, stiffness: 120 });
-    });
-  }, []);
-
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      {/* Animated Gradient Background */}
-      <Animated.View style={StyleSheet.absoluteFill}>
-        <LinearGradient
-          colors={["#0f2027", "#2c5364", "#2980b9", "#6dd5fa"]}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={StyleSheet.absoluteFill}
-        />
-      </Animated.View>
+      {/* Subtle Gradient Background */}
+      <LinearGradient
+        colors={["#1e3c72", "#2a5298"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
       {/* Glassmorphism Card */}
       <View style={styles.centeredContainer}>
-        <Animated.View
-          entering={FadeInUp.duration(800)}
-          style={[styles.glassCard, { width: width * 0.92, maxWidth: 420 }]}
-        >
-          {/* Premium Icon with Bounce */}
-          <Animated.View style={[styles.iconWrapper, iconStyle]}>
-            <Ionicons name="diamond-outline" size={72} color="#6dd5fa" style={styles.iconShadow} accessibilityLabel="Premium Icon" />
-          </Animated.View>
-          <Text style={styles.title} accessibilityRole="header">Login Now</Text>
-          {/* Animated Error Message */}
-          <Animated.View
-            style={{ minHeight: 24, alignSelf: 'stretch' }}
-            entering={error ? FadeInUp.duration(400) : undefined}
-          >
-            {error ? (
-              <Text
-                ref={errorRef}
-                style={styles.error}
-                accessibilityLiveRegion="polite"
-                accessibilityRole="alert"
-              >
-                {error}
-              </Text>
-            ) : null}
-          </Animated.View>
-          {/* Inputs */}
+        <View style={[styles.glassCard, { width: width * 0.92, maxWidth: 420 }]}>  
+          <View style={styles.iconWrapper}>
+            <Ionicons name="person-circle-outline" size={56} color="#2980b9" accessibilityLabel="Login icon" />
+          </View>
+          <Text style={styles.title} accessibilityRole="header">Sign In</Text>
+          {error ? (
+            <Text ref={errorRef} style={styles.error} accessibilityLiveRegion="polite">
+              {error}
+            </Text>
+          ) : (
+            <Text style={styles.error} accessibilityLiveRegion="polite"> </Text>
+          )}
           <InputField
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            icon={<Ionicons name="mail-outline" size={22} color={focusField === 'email' ? '#6dd5fa' : '#fff'} />}
+            icon={<Ionicons name="mail-outline" size={22} color={focusField === 'email' ? '#2980b9' : '#aaa'} />}
             onFocus={() => setFocusField('email')}
             onBlur={() => setFocusField(null)}
-            style={[
-              styles.input,
-              { borderColor: focusField === 'email' ? '#6dd5fa' : 'rgba(255,255,255,0.18)', color: '#fff' },
-            ]}
+            style={styles.input}
             accessibilityLabel="Email Input"
             returnKeyType="next"
             blurOnSubmit={false}
@@ -128,38 +105,31 @@ const LoginScreen = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            icon={<Ionicons name="lock-closed-outline" size={22} color={focusField === 'password' ? '#6dd5fa' : '#fff'} />}
+            icon={<Ionicons name="lock-closed-outline" size={22} color={focusField === 'password' ? '#2980b9' : '#aaa'} />}
             rightIcon={
-              <TouchableOpacity onPress={() => setShowPassword((prev) => !prev)} accessibilityLabel={showPassword ? 'Hide password' : 'Show password'}>
-                <Ionicons
-                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                  size={22}
-                  color="#fff"
-                />
-              </TouchableOpacity>
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={22}
+                color="#aaa"
+                onPress={() => setShowPassword((prev) => !prev)}
+                accessibilityLabel={showPassword ? 'Hide password' : 'Show password'}
+                accessible
+              />
             }
             onFocus={() => setFocusField('password')}
             onBlur={() => setFocusField(null)}
-            style={[
-              styles.input,
-              { borderColor: focusField === 'password' ? '#6dd5fa' : 'rgba(255,255,255,0.18)', color: '#fff' },
-            ]}
+            style={styles.input}
             accessibilityLabel="Password Input"
             returnKeyType="done"
           />
-          {/* Login Button */}
-          <CustomButton title={loading ? '' : 'Login'} onPress={handleLogin} disabled={loading} accessibilityLabel="Login Button" style={styles.button}>
-            {loading && <ActivityIndicator color="#fff" style={{ position: 'absolute', left: '50%' }} />}
-            {!loading && <Text style={styles.buttonText}>Login</Text>}
-          </CustomButton>
-          {/* Links */}
-          <TouchableOpacity style={styles.link} accessibilityRole="button" accessibilityLabel="Forgot Password">
-            <Text style={styles.linkText}>Forgot Password?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.link} accessibilityRole="button" accessibilityLabel="Sign Up">
-            <Text style={styles.linkText}>Sign Up</Text>
-          </TouchableOpacity>
-        </Animated.View>
+          <CustomButton
+            title={loading ? 'Signing In...' : 'Sign In'}
+            onPress={handleLogin}
+            disabled={loading}
+            accessibilityLabel="Sign In Button"
+            style={styles.button}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -172,88 +142,64 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   glassCard: {
-    backgroundColor: 'rgba(255,255,255,0.18)',
-    borderRadius: 28,
+    backgroundColor: 'rgba(255,255,255,0.13)',
+    borderRadius: 24,
     padding: 28,
     alignItems: 'center',
-    shadowColor: '#6dd5fa',
-    shadowOpacity: 0.18,
-    shadowRadius: 24,
-    elevation: 12,
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.22)',
-    // Note: backdropFilter is only for web, ignored on native
+    shadowColor: '#2980b9',
+    shadowOpacity: 0.10,
+    shadowRadius: 16,
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
   },
   iconWrapper: {
-    marginBottom: 16,
+    marginBottom: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconShadow: {
-    textShadowColor: '#2980b9',
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 12,
-  },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 24,
-    color: '#fff',
-    letterSpacing: 1,
+    marginBottom: 20,
+    color: '#222',
+    letterSpacing: 0.5,
     textAlign: 'center',
   },
   error: {
     color: '#ff4d4f',
-    marginBottom: 12,
-    marginTop: 4,
+    marginBottom: 10,
+    marginTop: 2,
     fontSize: 15,
     fontWeight: '600',
     textAlign: 'center',
     minHeight: 20,
   },
   input: {
-    borderWidth: 1.5,
-    borderRadius: 12,
+    borderWidth: 1,
+    borderRadius: 10,
     backgroundColor: 'rgba(255,255,255,0.08)',
-    color: '#fff',
-    marginBottom: 16,
-    fontSize: 17,
+    color: '#222',
+    marginBottom: 14,
+    fontSize: 16,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    shadowColor: '#6dd5fa',
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
+    width: '100%',
+    maxWidth: 400,
   },
   button: {
-    backgroundColor: 'rgba(41,128,185,0.95)',
-    borderRadius: 12,
-    paddingVertical: 16,
+    backgroundColor: '#2980b9',
+    borderRadius: 10,
+    paddingVertical: 14,
     marginTop: 8,
     width: '100%',
     maxWidth: 400,
     alignItems: 'center',
-    shadowColor: '#6dd5fa',
+    shadowColor: '#2980b9',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.18,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-  },
-  link: {
-    marginTop: 16,
-  },
-  linkText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-    opacity: 0.85,
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 2,
   },
 });
 
