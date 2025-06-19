@@ -1,3 +1,4 @@
+// Login screen with validation, accessibility, and premium look
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,6 +21,7 @@ import {
 const { width } = Dimensions.get('window');
 
 const LoginScreen = () => {
+  // State for form fields and UI
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -28,11 +30,13 @@ const LoginScreen = () => {
   const [focusField, setFocusField] = useState<string | null>(null);
   const errorRef = useRef<Text>(null);
 
+  // Email validation
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
+  // Handle login button press
   const handleLogin = async () => {
     if (!validateEmail(email)) {
       setError('Please enter a valid email address.');
@@ -61,11 +65,13 @@ const LoginScreen = () => {
     }, 1200);
   };
 
+  // Handle forgot password link
   const handleForgotPassword = () => {
     Haptics.selectionAsync();
     Alert.alert('Forgot Password', 'Password reset flow goes here.');
   };
 
+  // Handle sign up link
   const handleSignUp = () => {
     Haptics.selectionAsync();
     Alert.alert('Sign Up', 'Sign up flow goes here.');
@@ -88,10 +94,13 @@ const LoginScreen = () => {
       {/* Glassmorphism Card */}
       <View style={styles.centeredContainer}>
         <View style={[styles.glassCard, { width: width * 0.92, maxWidth: 420 }]}>  
+          {/* App icon */}
           <View style={styles.iconWrapper}>
             <Ionicons name="shield-checkmark" size={60} color="#2193b0" accessibilityLabel="Premium login icon" />
           </View>
+          {/* Title */}
           <Text style={styles.title} accessibilityRole="header">Sign In</Text>
+          {/* Error message */}
           {error ? (
             <Text ref={errorRef} style={[styles.error, { opacity: error ? 1 : 0 }]} accessibilityLiveRegion="polite">
               {error}
@@ -99,6 +108,7 @@ const LoginScreen = () => {
           ) : (
             <Text style={styles.error} accessibilityLiveRegion="polite"> </Text>
           )}
+          {/* Email input */}
           <InputField
             placeholder="Email"
             value={email}
@@ -113,6 +123,7 @@ const LoginScreen = () => {
             returnKeyType="next"
             blurOnSubmit={false}
           />
+          {/* Password input with show/hide toggle */}
           <InputField
             placeholder="Password"
             value={password}
@@ -141,6 +152,7 @@ const LoginScreen = () => {
             accessibilityLabel="Password Input"
             returnKeyType="done"
           />
+          {/* Forgot password link */}
           <TouchableOpacity
             onPress={handleForgotPassword}
             style={styles.forgotLink}
@@ -149,6 +161,7 @@ const LoginScreen = () => {
           >
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
+          {/* Login button */}
           <CustomButton
             title={loading ? 'Signing In...' : 'Sign In'}
             onPress={handleLogin}
@@ -156,6 +169,7 @@ const LoginScreen = () => {
             accessibilityLabel="Sign In Button"
             style={styles.button}
           />
+          {/* Sign up link */}
           <View style={styles.signupRow}>
             <Text style={styles.signupText}>Don't have an account?</Text>
             <TouchableOpacity

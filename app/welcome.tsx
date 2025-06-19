@@ -1,3 +1,4 @@
+// Welcome screen with premium icon and navigation
 import CustomButton from '@/components/CustomButton';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
@@ -10,22 +11,27 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 const { width } = Dimensions.get('window');
 
 export default function WelcomeScreen() {
+  // Navigation hook
   const router = useRouter();
   const color = Colors.light.tint;
 
   return (
     <View style={styles.container}>
+      {/* Animated premium icon */}
       <Animated.View entering={FadeInUp.duration(800)} style={styles.iconWrapper}>
         <View style={styles.iconCircle}>
           <IconSymbol name="house.fill" size={64} color={color} />
         </View>
       </Animated.View>
+      {/* Welcome title */}
       <Animated.Text entering={FadeInUp.delay(200).duration(800)} style={styles.title} accessibilityRole="header">
         Welcome To
       </Animated.Text>
+      {/* Subtitle */}
       <Animated.Text entering={FadeInUp.delay(400).duration(800)} style={styles.subtitle} accessibilityRole="text">
         create an account and access thousand of cool stuffs
       </Animated.Text>
+      {/* Get Started button */}
       <Animated.View entering={FadeInUp.delay(600).duration(800)} style={{ width: '100%', alignItems: 'center' }}>
         <CustomButton
           title="Get Started"
@@ -37,6 +43,7 @@ export default function WelcomeScreen() {
           <Text style={styles.buttonText}>Get Started</Text>
         </CustomButton>
       </Animated.View>
+      {/* Login link for existing users */}
       <Animated.View entering={FadeInUp.delay(800).duration(800)} style={styles.loginRow}>
         <Ionicons name="person-circle-outline" size={20} color={color} style={{ marginRight: 4 }} />
         <Text style={styles.loginText}>Do you have an account?</Text>
