@@ -11,7 +11,10 @@ A professional, responsive, and accessible Login Screen UI built with React Nati
 - Responsive design for all device sizes
 - Uses `react-native-vector-icons` for icons
 - Mock backend integration with `assets/mockUser.json`
-
+### Installation
+1. Install dependencies:
+   ```sh
+   npm install
 ## Folder Structure
 ```
 components/
