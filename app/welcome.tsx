@@ -10,7 +10,7 @@ export default function WelcomeScreen() {
     <ThemedView className="flex-1 justify-center items-center bg-gradient-to-b from-blue-900 to-blue-400 px-6">
       <Animated.View entering={FadeInDown.duration(800)} className="items-center">
         <Image
-          source={require('@/assets/images/react-logo@2x.png')}
+          source={require('../assets/images/react-logo.png')}
           style={{ width: 120, height: 120, marginBottom: 24 }}
           accessibilityLabel="App Logo"
         />
