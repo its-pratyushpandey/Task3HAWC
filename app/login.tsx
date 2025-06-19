@@ -1,8 +1,9 @@
+import CustomButton from '@/components/CustomButton';
+import InputField from '@/components/InputField';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Alert, Dimensions, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import CustomButton from '../components/CustomButton';
-import InputField from '../components/InputField';
+import { Alert, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 const { width } = Dimensions.get('window');
 
@@ -35,37 +36,46 @@ const LoginScreen = () => {
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>MyApp Login</Text>
+      <Animated.View
+        entering={FadeInUp.duration(800)}
+        style={styles.container}
+        className="bg-gradient-to-b from-blue-900 to-blue-400"
+      >
+        <Ionicons name="person-circle-outline" size={72} color="#0a7ea4" style={{ marginBottom: 16 }} />
+        <Text style={styles.title}>Login Now</Text>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
         <InputField
-          icon={<Ionicons name="mail-outline" size={20} color="#888" />}
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
+          icon={<Ionicons name="mail-outline" size={22} color="#0a7ea4" />}
         />
         <InputField
-          icon={<Ionicons name="lock-closed-outline" size={20} color="#888" />}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
+          icon={<Ionicons name="lock-closed-outline" size={22} color="#0a7ea4" />}
           rightIcon={
-            <TouchableOpacity onPress={() => setShowPassword((prev) => !prev)} accessible accessibilityLabel={showPassword ? 'Hide password' : 'Show password'}>
-              <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color="#888" />
+            <TouchableOpacity onPress={() => setShowPassword((prev) => !prev)}>
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={22}
+                color="#0a7ea4"
+              />
             </TouchableOpacity>
           }
         />
-        {error ? <Text style={styles.error}>{error}</Text> : null}
         <CustomButton title="Login" onPress={handleLogin} />
-        <TouchableOpacity style={styles.link} onPress={() => Alert.alert('Forgot Password', 'Forgot Password pressed!')}>
+        <TouchableOpacity style={styles.link}>
           <Text style={styles.linkText}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.link} onPress={() => Alert.alert('Sign Up', 'Sign Up pressed!')}>
+        <TouchableOpacity style={styles.link}>
           <Text style={styles.linkText}>Sign Up</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </Animated.View>
     </KeyboardAvoidingView>
   );
 };
@@ -78,6 +88,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: '#fff',
     minHeight: Dimensions.get('window').height,
+    width: '100%',
   },
   title: {
     fontSize: 32,
