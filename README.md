@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
+# React Native Login Screen UI (Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A professional, responsive, and accessible Login Screen UI built with React Native (Expo).
 
-## Get started
+## Features
+- Modern, clean, and modular code
+- Email and password input fields with validation
+- Show/hide password toggle
+- Distinct, accessible login button
+- "Forgot Password?" and "Sign Up" links
+- Responsive design for all device sizes
+- Uses `react-native-vector-icons` for icons
+- Mock backend integration with `assets/mockUser.json`
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+## Folder Structure
+```
+components/
+  InputField.tsx
+  CustomButton.tsx
+app/
+  login.tsx
+assets/
+  mockUser.json
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Getting Started
 
-## Learn more
+### Prerequisites
+- [Node.js](https://nodejs.org/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 
-To learn more about developing your project with Expo, look at the following resources:
+### Installation
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Start the Expo development server:
+   ```sh
+   npx expo start
+   ```
+3. Open the app on your device using the Expo Go app or an emulator.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Usage
+- Navigate to `/login` to view the login screen.
+- Enter email and password, then tap **Login** to see an alert with your credentials.
 
-## Join the community
+## Customization
+- Update `assets/mockUser.json` for backend integration.
+- Modify components in `components/` for custom UI.
 
-Join our community of developers creating universal apps.
+## Accessibility & Best Practices
+- All interactive elements are accessible.
+- Responsive and clean design.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+**Author:** _Your Name Here_
