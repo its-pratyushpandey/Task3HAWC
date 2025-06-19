@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-const logo = require('../assets/icon.png'); // Replace with your logo if available
+const logo = require('../assets/images/icon.png'); // Fixed path to logo
 
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   const spinValue = React.useRef(new Animated.Value(0)).current;
